@@ -4,46 +4,76 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/marked"></script>
     <title>Markdown Editer</title>
     <style>
+
+        body{
+            margin:0;
+        }
+
+        #notebook{
+            display: flex;
+        }
+
         .notebook,.input,.preview{
            /* border: 1px solid red;*/
             height: 1000px;
-            position: absolute;
         }
 
         .notebook{
             background-color: pink;
             width: 20%;
-            left: 0%;
-            top: 0%;
+        }
+
+        textarea{
+            width: 98%;
+            height: 100%;
+            background-color: plum;
         }
 
         .input{
             background-color: wheat;
             width: 40%;
-            left:20%;
-            top: 0%;
         }
 
         .preview{
             background-color: skyblue;
             width: 40%;
-            left: 60%;
-            top: 0%;
         }
     </style>
 </head>
 <body>
     <div id="notebook">
-        <div class="notebook">notebook</div>
-        <div class="input">input</div>
-        <div class="preview">preview</div>
+        <div class="notebook"></div>
+        <div class="input">
+            <textarea v-model="content"></textarea>
+        </div>
+        <div class="preview" v-html="markdownPreview"></div>
     </div>
 
     <script>
+        //const html=marked('# hello')
+        //console.log(html)
+        //const html_strong=marked('**notice**')
+        //console.log(html_strong)
         var vm=new Vue({
-            el:'#notebook'
+            el:'#notebook',
+            data:{
+                content:'test'
+            },
+            computed:{
+                markdownPreview(){
+                    return marked(this.content)
+                }
+            },
+            watch:{
+                content(val,oldval){
+                    console.log("new:",val,"old:",oldval)
+                    localStorage.setItem('content',val)
+                }
+            }
         })
     </script>
 </body>
