@@ -73,6 +73,9 @@
                     console.log("new:",val,"old:",oldval)
                     localStorage.setItem('content',val)
                 }
+            },
+            created(){
+                this.content=localStorage.getItem('content')
             }
         })
     </script>
